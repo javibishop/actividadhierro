@@ -7,12 +7,12 @@
 		<mat-table #table [dataSource]="dataSource" matSort>
 			<ng-container matColumnDef="nombre">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Nombre</b></mat-header-cell>
-				<mat-cell *matCellDef="let element"><a [routerLink]="['/admin/impuestos/', element.id]">{{ element.nombre }}</a>
+				<mat-cell *matCellDef="let element"><a [routerLink]="['/actividadtipo/', element.id]">{{ element.nombre }}</a>
 				</mat-cell>
 			</ng-container>
-			<ng-container matColumnDef="porcentaje">
-				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Porcentaje (%)</b></mat-header-cell>
-				<mat-cell *matCellDef="let element">{{ element.porcentaje }}</mat-cell>
+			<ng-container matColumnDef="descripcion">
+				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Descripcion</b></mat-header-cell>
+				<mat-cell *matCellDef="let element">{{ element.descripcion }}</mat-cell>
 			</ng-container>
 			<ng-container matColumnDef="activo">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Activo ?</b></mat-header-cell>
