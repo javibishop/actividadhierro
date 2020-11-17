@@ -1,11 +1,11 @@
 <div class="row">
 	<div class="col-md-12">
-		<form #f="ngForm" *ngIf="actividadTipo" (ngSubmit)="guardar(f.value)">
+		<form #f="ngForm" *ngIf="actividad" (ngSubmit)="save(f.value)">
 			<div class="form-group col-sm">
-				<label for="name">Nombre</label>
+				<label for="name">Titulo</label>
 				<input
-					#nombre="ngModel"
-					[(ngModel)]="actividadTipo.nombre"
+					#titulo="ngModel"
+					[(ngModel)]="actividad.titulo"
 					name="nombre"
 					type="text"
 					class="form-control"
@@ -14,16 +14,23 @@
 				/>
 				<div
 					class="alert alert-danger"
-					*ngIf="nombre.touched && nombre.invalid"
+					*ngIf="titulo.touched && titulo.invalid"
 				>
 				Nombre es requerido
 				</div>
+			</div>
+			<div class="form-group col-sm">
+				<label for="tipoActividad">Tipo Actividad</label>
+				<select #estado="ngModel" [(ngModel)]="actividad.actividadKey" name="actividadKey" id="actividadKey"
+					class="form-control" required>
+					<option *ngFor="let c of tipos" [value]="c.key">{{ c.nombre }}</option>
+				</select>
 			</div>
             <div class="form-group col-sm">
 				<label for="name">Descripcion</label>
 				<input
 					#descripcion="ngModel"
-					[(ngModel)]="actividadTipo.descripcion"
+					[(ngModel)]="actividad.descripcion"
 					name="descripcion"
 					type="text"
 					class="form-control"
@@ -33,7 +40,7 @@
 			</div>
 			
 			<div class="form-group col-sm">
-				<mat-checkbox [(ngModel)]="actividadTipo.activo" name="activo" id="activo">
+				<mat-checkbox [(ngModel)]="actividad.activo" name="activo" id="activo">
 					Habilitado?
 				</mat-checkbox>
 			</div>
@@ -42,8 +49,8 @@
 				<button type="button" class="btn btn-danger  mr-2" (click)="delete()">
 					Eliminar
 				</button>
-				<button type="button" class="btn btn-warning mr-2" (click)="cancelarEdicion()">
-					Cancelar
+				<button type="button" class="btn btn-warning mr-2" (click)="volver()">
+					Volver
 				</button>
 			</div>
 		</form>

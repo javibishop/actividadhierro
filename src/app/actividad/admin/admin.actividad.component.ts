@@ -7,31 +7,29 @@ import { MatSort } from "@angular/material/sort";
 import ActividadTipo from '../../models/actividadtipo'
 import {ActividadtipoService} from '../../services/actividadtipo.service'
 import { map } from 'rxjs/operators';
-import { EditActividadTipoComponent } from '../edit/edit.actividadtipo.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-	selector: 'app-admin-actividad-tipo',
-  templateUrl: './admin.actividadtipo.component.html',
-  styleUrls: ['./admin.actividadtipo.component.scss']
+	selector: 'app-admin-actividad',
+  templateUrl: './admin.actividad.component.html',
+  styleUrls: ['./admin.actividad.component.scss']
 })
-export class AdminActiviadTipoComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy {
 	Impuesto: ActividadTipo;
-	subscriptions = [];
-	displayedColumns = ["nombre", "descripcion","activo", "id"];
+	subscription: Subscription;
+	displayedColumns = ["titulo", "descripcion","activo", "id"];
 	dataSource = new MatTableDataSource<any>();
 	actividadesTipo:  ActividadTipo[];
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 
-	constructor(private actividadTipoService: ActividadtipoService, private dialog: MatDialog) { }
+	constructor(private actividadTipoService: ActividadtipoService) { }
 
 	ngOnInit() {
-    	this.retrieveTutorials();
+    this.retrieveTutorials();
 	}
 
   retrieveTutorials(): void {
-    this.subscriptions.push(this.actividadTipoService.getAll().snapshotChanges().pipe(
+    this.actividadTipoService.getAll().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
           ({ key: c.payload.key, ...c.payload.val() })
@@ -40,7 +38,7 @@ export class AdminActiviadTipoComponent implements OnInit, AfterViewInit, OnDest
     ).subscribe(data => {
       this.actividadesTipo = data;
       this.dataSource.data = this.actividadesTipo;
-    }));
+    });
   }
 
 	ngAfterViewInit() {
@@ -62,21 +60,6 @@ export class AdminActiviadTipoComponent implements OnInit, AfterViewInit, OnDest
 		//this.impuestoService.update(element.key, element); 
 	}
 	ngOnDestroy() {
-		this.subscriptions.forEach(s => s.unsubscribe());
-	}
-
-	nuevaActividad(){
-		const dialogRef = this.dialog.open(EditActividadTipoComponent, {
-			height: '400px',
-			width: '600px',
-			data: null
-		});
-		
-		this.subscriptions.push(dialogRef.afterClosed().subscribe(result => {
-			// if (result && result.result === true) {
-			// 	mov.afipCAE = result.cae;
-			// 	this.notificationService.notification$.next({message: result.msj, action:'Ok'});
-			// }
-		}));
+		this.subscription.unsubscribe();
 	}
 }

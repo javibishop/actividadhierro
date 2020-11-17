@@ -8,23 +8,31 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 import { AdminActiviadTipoComponent } from './actividadtipo/admin/admin.actividadtipo.component';
 import { EditActividadTipoComponent } from './actividadtipo/edit/edit.actividadtipo.component';
+import { AdminActiviadComponent } from './actividad/admin/admin.actividad.component';
+import { EditActividadComponent } from './actividad/edit/edit.actividad.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-
+import { FormsModule } from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
     AdminActiviadTipoComponent,
-    EditActividadTipoComponent
+    EditActividadTipoComponent,
+    AdminActiviadComponent,
+    EditActividadComponent
   ],
+  entryComponents: [EditActividadTipoComponent, EditActividadComponent],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
@@ -34,9 +42,13 @@ import { RouterModule } from '@angular/router';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSelectModule,
+    MatInputModule,
+    MatCheckboxModule,
     RouterModule.forRoot([
-			{ path: 'tipoActividad', component: AdminActiviadTipoComponent },
-			{ path: 'tipoAcvtividadEdit/:id', component:EditActividadTipoComponent }])
+      { path: 'tipoActividad', component: AdminActiviadTipoComponent },
+      { path: 'actividad', component: AdminActiviadComponent },
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
