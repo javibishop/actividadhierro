@@ -1,19 +1,26 @@
 <div class="row">
 	<div class="col-md-12">
-		<h3>Listado de Lista de Precios</h3>
+		<h3>Listado de Actividades</h3>
 		<mat-form-field>
 			<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar" />
 		</mat-form-field>
 		<mat-table #table [dataSource]="dataSource" matSort>
 			<ng-container matColumnDef="titulo">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Titulo</b></mat-header-cell>
-				<mat-cell *matCellDef="let element"><a [routerLink]="['/actividad/', element.id]">{{ element.titulo }}</a>
+				<mat-cell *matCellDef="let element"><a (click)="editActividad(element.id)">{{ element.titulo }}</a>
 				</mat-cell>
+			</ng-container>
+			<ng-container matColumnDef="fecha">
+				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Fecha</b></mat-header-cell>
+				<mat-cell *matCellDef="let element">{{ element.fecha | date }}</mat-cell>
 			</ng-container>
 			<ng-container matColumnDef="tipo">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Tipo</b></mat-header-cell>
 				<mat-cell *matCellDef="let element">{{ element.actividadKey }}</mat-cell>
-				</mat-cell>
+			</ng-container>
+			<ng-container matColumnDef="ubicacion">
+				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Ubicacion</b></mat-header-cell>
+				<mat-cell *matCellDef="let element">{{ element.ubicacion }}</mat-cell>
 			</ng-container>
 			<ng-container matColumnDef="descripcion">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Descripcion</b></mat-header-cell>
@@ -29,7 +36,7 @@
 					<button mat-flat-button-sm class="shrink-2x" [matMenuTriggerFor]="menu">
 						<mat-icon>more_vert</mat-icon>
 					</button>
-					<mat-menu #menu="matMenu">
+					<mat-menu #menu="matMenu">  
 						<button mat-menu-item [routerLink]="['/actividad/', element.id]">Editar</button>
 						<hr>
 						<button mat-menu-item (click)="habilitarIn(element)">{{(element.activo ? 'Inhabilitar' : 'Habilitar')}}</button>
@@ -45,10 +52,7 @@
 	</div>
 </div>
 <div class="row action-buttons pull-right  mt-2 mb-2" >
-	<div class="action-buttons mr-2" style="margin-top: 15px;">
-		<a routerLink="/actividad" class="btn btn-warning">Volver</a>
-	</div>
 	<div class="action-buttons" style="margin-top: 15px;">
-		<a routerLink="/actividad/new" class="btn btn-primary">Nuevo</a>
+		<a (click)="nuevaActividad()" class="btn btn-primary">Nuevo</a>
 	</div>
 </div>

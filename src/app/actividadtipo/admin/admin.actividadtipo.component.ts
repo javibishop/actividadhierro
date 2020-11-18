@@ -65,7 +65,10 @@ export class AdminActiviadTipoComponent implements OnInit, AfterViewInit, OnDest
 		this.subscriptions.forEach(s => s.unsubscribe());
 	}
 
-	nuevaActividad(){
+	editActividadTipo(key){
+		
+	}
+	nuevaActividadTipo(){
 		const dialogRef = this.dialog.open(EditActividadTipoComponent, {
 			height: '400px',
 			width: '600px',

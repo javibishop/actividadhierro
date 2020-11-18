@@ -7,7 +7,7 @@
 		<mat-table #table [dataSource]="dataSource" matSort>
 			<ng-container matColumnDef="nombre">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Nombre</b></mat-header-cell>
-				<mat-cell *matCellDef="let element"><a [routerLink]="['/tipoActividad/', element.id]">{{ element.nombre }}</a>
+				<mat-cell *matCellDef="let element"><a (click)="editActividadTipo(element.id)">{{ element.nombre }}</a>
 				</mat-cell>
 			</ng-container>
 			<ng-container matColumnDef="descripcion">
@@ -40,10 +40,7 @@
 	</div>
 </div>
 <div class="row action-buttons pull-right  mt-2 mb-2" >
-	<div class="action-buttons mr-2" style="margin-top: 15px;">
-		<a routerLink="/tipoActividad" class="btn btn-warning">Volver</a>
-	</div>
 	<div class="action-buttons" style="margin-top: 15px;">
-		<a (click)="nuevaActividad()" class="btn btn-primary">Nuevo</a>
+		<a (click)="nuevaActividadTipo()" class="btn btn-primary">Nuevo</a>
 	</div>
 </div>

@@ -26,19 +26,56 @@
 					<option *ngFor="let c of tipos" [value]="c.key">{{ c.nombre }}</option>
 				</select>
 			</div>
-            <div class="form-group col-sm">
-				<label for="name">Descripcion</label>
+			<div class="form-group col-md-4">
+				<label for="drivers">Participantes</label>
+				<mat-select #drivers="ngModel" [(ngModel)]="actividad.participantesKey" name="participantesKey" id="participantesKey"
+					class="form-control" [multiple]="true">
+					<mat-option *ngFor="let c of participantes" [value]="c.key">{{ c.name }}</mat-option>
+				</mat-select>
+			</div>
+			<div class="form-group col-sm">
+				<label for="name">Ubicacion</label>
 				<input
-					#descripcion="ngModel"
-					[(ngModel)]="actividad.descripcion"
-					name="descripcion"
+					#ubicacion="ngModel"
+					[(ngModel)]="actividad.ubicacion"
+					name="ubicacion"
 					type="text"
 					class="form-control"
-					id="descripcion"
-					required
+					id="ubicacion"
 				/>
 			</div>
+			<div class="form-group col-sm">
+				<mat-form-field appearance="fill">
+					<mat-label>Fecha</mat-label>
+					<input matInput [matDatepicker]="picker" name="fecha">
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				  </mat-form-field>
+			</div>
+			<!-- <div class="form-group col-md-12">
+				<section fxLayout="column" fxLayoutAlign="start stretch">
+					<mat-form-field fxFlex>
+					  <textarea matInput
+								matTextareaAutosize
+								[matAutosizeMinRows]="5"
+								[matAutosizeMaxRows]="20"></textarea>
+					</mat-form-field>
+				  </section>
+			</div> -->
 			
+
+            <div class="form-group col-md-12">
+				<mat-form-field >
+					<textarea matInput  style="height: 150px;"
+						name="descripcion"
+						[(ngModel)]="actividad.descripcion"
+						placeholder="Descripcion" 
+						resizeToFitContent
+						cdkAutosizeMinRows="15"
+						cdkAutosizeMaxRows="15">
+					</textarea>
+				  </mat-form-field> 
+			</div>
 			<div class="form-group col-sm">
 				<mat-checkbox [(ngModel)]="actividad.activo" name="activo" id="activo">
 					Habilitado?

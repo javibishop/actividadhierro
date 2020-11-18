@@ -6,6 +6,6 @@ export default class Actividad {
     ubicacion:string;
     fecha: number;
     participantesKey: [string];
-    activa = false;
+    activo = false;
   }
   

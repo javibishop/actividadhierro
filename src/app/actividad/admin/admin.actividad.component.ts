@@ -1,12 +1,13 @@
 
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit} from "@angular/core";
-import { Subscription } from "rxjs";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import ActividadTipo from '../../models/actividadtipo'
-import {ActividadtipoService} from '../../services/actividadtipo.service'
 import { map } from 'rxjs/operators';
+import { ActividadService } from 'src/app/services/actividad.service';
+import Actividad from 'src/app/models/actividad';
+import { MatDialog } from '@angular/material/dialog';
+import { EditActividadComponent } from '../edit/edit.actividad.component';
 
 @Component({
 	selector: 'app-admin-actividad',
@@ -14,31 +15,30 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./admin.actividad.component.scss']
 })
 export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy {
-	Impuesto: ActividadTipo;
-	subscription: Subscription;
-	displayedColumns = ["titulo", "descripcion","activo", "id"];
+	displayedColumns = ["titulo",'fecha', 'tipo', 'ubicacion', 'id'];
 	dataSource = new MatTableDataSource<any>();
-	actividadesTipo:  ActividadTipo[];
+	actividades:  Actividad[];
+	subscriptions = [];
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 
-	constructor(private actividadTipoService: ActividadtipoService) { }
+	constructor(private actividadService: ActividadService, private dialog: MatDialog) { }
 
 	ngOnInit() {
-    this.retrieveTutorials();
+    	this.retrieveTutorials(); 
 	}
 
   retrieveTutorials(): void {
-    this.actividadTipoService.getAll().snapshotChanges().pipe(
+    this.subscriptions.push(this.actividadService.getAll().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
           ({ key: c.payload.key, ...c.payload.val() })
         )
       )
     ).subscribe(data => {
-      this.actividadesTipo = data;
-      this.dataSource.data = this.actividadesTipo;
-    });
+      this.actividades = data;
+      this.dataSource.data = this.actividades;
+    }));
   }
 
 	ngAfterViewInit() {
@@ -60,6 +60,24 @@ export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy 
 		//this.impuestoService.update(element.key, element); 
 	}
 	ngOnDestroy() {
-		this.subscription.unsubscribe();
+		this.subscriptions.forEach(s => s.unsubscribe());
+	}
+
+	editActividad(key){
+
+	}
+	nuevaActividad(){
+		const dialogRef = this.dialog.open(EditActividadComponent, {
+			height: '800px',
+			width: '800px',
+			data: null
+		});
+		
+		this.subscriptions.push(dialogRef.afterClosed().subscribe(result => {
+			// if (result && result.result === true) {
+			// 	mov.afipCAE = result.cae;
+			// 	this.notificationService.notification$.next({message: result.msj, action:'Ok'});
+			// }
+		}));
 	}
 }

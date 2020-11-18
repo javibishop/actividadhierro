@@ -10,6 +10,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
@@ -19,8 +21,11 @@ import { AdminActiviadComponent } from './actividad/admin/admin.actividad.compon
 import { EditActividadComponent } from './actividad/edit/edit.actividad.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker'; 
+import {MatNativeDateModule} from '@angular/material/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +38,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
@@ -45,6 +51,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatSelectModule,
     MatInputModule,
     MatCheckboxModule,
+    MatMenuModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     RouterModule.forRoot([
       { path: 'tipoActividad', component: AdminActiviadTipoComponent },
       { path: 'actividad', component: AdminActiviadComponent },

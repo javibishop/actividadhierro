@@ -5,6 +5,7 @@ import { ActividadtipoService } from 'src/app/services/actividadtipo.service';
 import { ActividadService } from 'src/app/services/actividad.service';
 import Actividad from '../../models/actividad'
 import { take } from 'rxjs/operators';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-actividad-edit',
@@ -14,25 +15,36 @@ import { take } from 'rxjs/operators';
 export class EditActividadComponent implements OnInit {
   actividad: Actividad;
   tipos: ActividadTipo [];
+  participantes: [];
   constructor(public dialogRef: MatDialogRef<EditActividadComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,
   private actividadTipoService: ActividadtipoService, private actividadService: ActividadService) { }
+  descripcion = new FormControl('', [
+    Validators.maxLength(5000)
+  ]); 
 
   ngOnInit(){
     this.actividadTipoService
 				.getAll()
 				.valueChanges()
 				.pipe(take(1))
-				.subscribe(p => this.tipos = p);
+        .subscribe(p => this.tipos = p);
+        
+        if(this.data !== null){
+          this.actividad = this.data;
+        }else {
+          this.actividad = {key: '', titulo: '', descripcion: '', ubicacion: '', fecha: new Date().getTime(), actividadKey:'', participantesKey:[''], activo: true};
+        }
   }
 
 
   guardar() {
-    // if (this.order.key !== undefined && this.order.key !== '') {
-    //   this.orderService.update(this.order.key, this.order).then(result => {
-    //     this.dialogRef.close({result:true, data: this.order, update: true});
-    //   }).catch(result =>{
-    //     console.log('error al cambiar estado');
-    //   });
-    // }
+    if (this.actividad.key !== '') {
+			this.actividadService.update(this.actividad.key, this.actividad);
+		} else {
+			this.actividad.activo = true;
+			this.actividadService.create(this.actividad);
+		}
   }
+
+ 
 }
