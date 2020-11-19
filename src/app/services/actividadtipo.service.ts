@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { map } from 'rxjs/operators';
 import ActividadTipo from '../models/actividadtipo';
 
 
@@ -10,29 +11,40 @@ export class ActividadtipoService {
 
   private dbPath = '/actividadtipo';
 
-  tutorialsRef: AngularFireList<ActividadTipo> = null;
+  tipoActividadRef: AngularFireList<ActividadTipo> = null;
 
   constructor(private db: AngularFireDatabase) {
-    this.tutorialsRef = db.list(this.dbPath);
+    this.tipoActividadRef = db.list(this.dbPath);
   }
 
-  getAll(): AngularFireList<ActividadTipo> {
-    return this.tutorialsRef;
+  getAll()  {
+    return this.db.list("/actividadtipo", ref => ref.orderByChild("nombre"))
+			.snapshotChanges()
+			.pipe(
+				map(action => {
+					return action.map((item: any) => {
+						const key = item.payload.key;
+            const data = { key, ...item.payload.val() as ActividadTipo [] };
+            data.key = key;
+						return data;
+					});
+				})
+      )
   }
 
   create(tutorial: ActividadTipo): any {
-    return this.tutorialsRef.push(tutorial);
+    return this.tipoActividadRef.push(tutorial);
   }
 
   update(key: string, value: any): Promise<void> {
-    return this.tutorialsRef.update(key, value);
+    return this.tipoActividadRef.update(key, value);
   }
 
   delete(key: string): Promise<void> {
-    return this.tutorialsRef.remove(key);
+    return this.tipoActividadRef.remove(key);
   }
 
   deleteAll(): Promise<void> {
-    return this.tutorialsRef.remove();
+    return this.tipoActividadRef.remove();
   }
 }

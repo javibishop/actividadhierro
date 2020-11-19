@@ -8,7 +8,7 @@ import ActividadTipo from '../../models/actividadtipo'
 import {ActividadtipoService} from '../../services/actividadtipo.service'
 import { map } from 'rxjs/operators';
 import { EditActividadTipoComponent } from '../edit/edit.actividadtipo.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-admin-actividad-tipo',
@@ -23,7 +23,7 @@ export class AdminActiviadTipoComponent implements OnInit, AfterViewInit, OnDest
 	actividadesTipo:  ActividadTipo[];
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
-
+	dialogRef:  MatDialogRef<EditActividadTipoComponent>;
 	constructor(private actividadTipoService: ActividadtipoService, private dialog: MatDialog) { }
 
 	ngOnInit() {
@@ -31,16 +31,11 @@ export class AdminActiviadTipoComponent implements OnInit, AfterViewInit, OnDest
 	}
 
   retrieveTutorials(): void {
-    this.subscriptions.push(this.actividadTipoService.getAll().snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c =>
-          ({ key: c.payload.key, ...c.payload.val() })
-        )
-      )
-    ).subscribe(data => {
-      this.actividadesTipo = data;
-      this.dataSource.data = this.actividadesTipo;
-    }));
+	this.subscriptions.push(this.actividadTipoService
+	.getAll()
+	.subscribe(data => {
+		this.dataSource.data = data;
+	}));
   }
 
 	ngAfterViewInit() {
@@ -65,21 +60,25 @@ export class AdminActiviadTipoComponent implements OnInit, AfterViewInit, OnDest
 		this.subscriptions.forEach(s => s.unsubscribe());
 	}
 
-	editActividadTipo(key){
-		
+	editActividadTipo(tipoActividad){
+		this.showModal(tipoActividad);
 	}
 	nuevaActividadTipo(){
-		const dialogRef = this.dialog.open(EditActividadTipoComponent, {
+		this.showModal(null);
+	}
+
+	showModal(tipoActividad){
+		this.dialogRef = this.dialog.open(EditActividadTipoComponent, {
 			height: '400px',
 			width: '600px',
-			data: null
+			data: tipoActividad
 		});
 		
-		this.subscriptions.push(dialogRef.afterClosed().subscribe(result => {
-			// if (result && result.result === true) {
-			// 	mov.afipCAE = result.cae;
-			// 	this.notificationService.notification$.next({message: result.msj, action:'Ok'});
-			// }
+		this.subscriptions.push(this.dialogRef.afterClosed().subscribe(result => {
+			
 		}));
 	}
+	cancelarEdicion() {
+		this.dialogRef.close({ update: false });
+	  }
 }

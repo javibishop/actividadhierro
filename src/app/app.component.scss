@@ -6,7 +6,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
+  a:hover {
+    cursor:pointer;
+   }
   h1,
   h2,
   h3,
@@ -23,7 +25,7 @@
   .spacer {
     flex: 1;
   }
-
+  .material-icons.color_white { background: rgba(0,0,0,0.5);}
 .content {
   margin: 82px auto 32px;
   padding: 0 16px;

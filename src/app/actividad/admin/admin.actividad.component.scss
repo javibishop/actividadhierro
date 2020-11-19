@@ -1,0 +1,33 @@
+.shrink-2x {
+	transform: scale(.5);
+  }
+  mat-header-cell, mat-cell, mat-checkbox{
+    justify-content: center;
+    flex: 0 0 200px;
+    border-bottom-width: 0px;
+    border-bottom-style: solid;
+    border-bottom-color: lightgrey;
+    align-items: center;
+  }
+  
+  mat-cell > a{
+    color: #007bff !important;
+  }
+  /* offsets the header by the same amount of size/padding the sort button occupies */
+  .mat-sort-header-container {
+    margin-left: 18px;
+  }
+  .mat-row .mat-header-row {
+    border-bottom-width: 0px;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  mat-table {
+    overflow-x: auto;
+  }
+  a:hover {
+    cursor:pointer;
+   }

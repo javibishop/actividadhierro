@@ -25,15 +25,17 @@ export class EditActividadTipoComponent implements OnInit {
 
   guardar(f) {
     if (this.actividadTipo.key !== '') {
-			this.actividadtipoService.update(this.actividadTipo.key, this.actividadTipo);
+      this.actividadtipoService.update(this.actividadTipo.key, this.actividadTipo);
+      this.dialogRef.close({ action: 'update', status:true });
 		} else {
 			this.actividadTipo.activo = true;
-			this.actividadtipoService.create(this.actividadTipo);
+      this.actividadtipoService.create(this.actividadTipo);
+      this.dialogRef.close({ action: 'create', status:true });
 		}
   }
 
-  cancelarEdicion() {
-    this.dialogRef.close({ update: false });
+  cerrarDialog() {
+    this.dialogRef.close({ action: 'cancel', status:true });
   }
   delete() {
 

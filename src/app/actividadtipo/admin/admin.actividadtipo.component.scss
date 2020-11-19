@@ -25,3 +25,11 @@ mat-header-cell, mat-cell, mat-checkbox{
   mat-table {
     overflow-x: auto;
   }
+
+  .shrink-2x {
+    transform: scale(.5);
+    }
+
+    a:hover {
+      cursor:pointer;
+     }

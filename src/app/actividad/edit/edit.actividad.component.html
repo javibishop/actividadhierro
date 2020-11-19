@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<form #f="ngForm" *ngIf="actividad" (ngSubmit)="save(f.value)">
+		<form #f="ngForm" *ngIf="actividad" (ngSubmit)="guardar(f.value)">
 			<div class="form-group col-sm">
 				<label for="name">Titulo</label>
 				<input
@@ -21,16 +21,16 @@
 			</div>
 			<div class="form-group col-sm">
 				<label for="tipoActividad">Tipo Actividad</label>
-				<select #estado="ngModel" [(ngModel)]="actividad.actividadKey" name="actividadKey" id="actividadKey"
-					class="form-control" required>
+				<select #estado="ngModel" [(ngModel)]="actividad.actividadTipoKey" name="actividadTipoKey" id="actividadTipoKey"
+					class="form-control" (change)="tipoChange($event)" required>
 					<option *ngFor="let c of tipos" [value]="c.key">{{ c.nombre }}</option>
 				</select>
 			</div>
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-12">
 				<label for="drivers">Participantes</label>
 				<mat-select #drivers="ngModel" [(ngModel)]="actividad.participantesKey" name="participantesKey" id="participantesKey"
 					class="form-control" [multiple]="true">
-					<mat-option *ngFor="let c of participantes" [value]="c.key">{{ c.name }}</mat-option>
+					<mat-option *ngFor="let c of participantes" [value]="c.key">{{ c.email }}</mat-option>
 				</mat-select>
 			</div>
 			<div class="form-group col-sm">
@@ -47,7 +47,7 @@
 			<div class="form-group col-sm">
 				<mat-form-field appearance="fill">
 					<mat-label>Fecha</mat-label>
-					<input matInput [matDatepicker]="picker" name="fecha">
+					<input matInput [matDatepicker]="picker" name="fecha" [(ngModel)]="fecha">
 					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 					<mat-datepicker #picker></mat-datepicker>
 				  </mat-form-field>
@@ -83,11 +83,11 @@
 			</div>
 			<div class="action-buttons pull-right  mt-2 mb-2">
 				<button type="submit" class="btn btn-primary mr-2">Guardar</button>
-				<button type="button" class="btn btn-danger  mr-2" (click)="delete()">
+				<!-- <button type="button" class="btn btn-danger  mr-2" (click)="delete()">
 					Eliminar
-				</button>
-				<button type="button" class="btn btn-warning mr-2" (click)="volver()">
-					Volver
+				</button> -->
+				<button type="button" class="btn btn-warning mr-2" (click)="cerrarDialog()">
+					Cancelar
 				</button>
 			</div>
 		</form>

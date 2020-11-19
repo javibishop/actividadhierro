@@ -1,6 +1,7 @@
 export default class Actividad {
     key: string;
-    actividadKey: string;
+    actividadTipo: any;
+    actividadTipoKey: string;
     titulo: string;
     descripcion: string;
     ubicacion:string;

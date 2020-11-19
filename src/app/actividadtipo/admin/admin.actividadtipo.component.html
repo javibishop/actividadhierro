@@ -7,7 +7,7 @@
 		<mat-table #table [dataSource]="dataSource" matSort>
 			<ng-container matColumnDef="nombre">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Nombre</b></mat-header-cell>
-				<mat-cell *matCellDef="let element"><a (click)="editActividadTipo(element.id)">{{ element.nombre }}</a>
+				<mat-cell *matCellDef="let element"><a (click)="editActividadTipo(element)">{{ element.nombre }}</a>
 				</mat-cell>
 			</ng-container>
 			<ng-container matColumnDef="descripcion">
@@ -25,7 +25,7 @@
 						<mat-icon>more_vert</mat-icon>
 					</button>
 					<mat-menu #menu="matMenu">
-						<button mat-menu-item [routerLink]="['/tipoActividad/', element.id]">Editar</button>
+						<button mat-menu-item (click)="editActividadTipo(element)">Editar</button>
 						<hr>
 						<button mat-menu-item (click)="habilitarIn(element)">{{(element.activo ? 'Inhabilitar' : 'Habilitar')}}</button>
 					</mat-menu>

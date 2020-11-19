@@ -3,10 +3,9 @@ import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit} from "@angular/
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import { map } from 'rxjs/operators';
 import { ActividadService } from 'src/app/services/actividad.service';
 import Actividad from 'src/app/models/actividad';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EditActividadComponent } from '../edit/edit.actividad.component';
 
 @Component({
@@ -21,7 +20,7 @@ export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy 
 	subscriptions = [];
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
-
+	dialogRef:  MatDialogRef<EditActividadComponent>;
 	constructor(private actividadService: ActividadService, private dialog: MatDialog) { }
 
 	ngOnInit() {
@@ -29,13 +28,7 @@ export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy 
 	}
 
   retrieveTutorials(): void {
-    this.subscriptions.push(this.actividadService.getAll().snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c =>
-          ({ key: c.payload.key, ...c.payload.val() })
-        )
-      )
-    ).subscribe(data => {
+    this.subscriptions.push(this.actividadService.getAll().subscribe(data => {
       this.actividades = data;
       this.dataSource.data = this.actividades;
     }));
@@ -63,21 +56,28 @@ export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy 
 		this.subscriptions.forEach(s => s.unsubscribe());
 	}
 
-	editActividad(key){
-
+	editActividad(actividad){
+		this.showModal(actividad);
 	}
 	nuevaActividad(){
-		const dialogRef = this.dialog.open(EditActividadComponent, {
+		this.showModal(null);
+	}
+
+	showModal(actividad){
+		this.dialogRef = this.dialog.open(EditActividadComponent, {
 			height: '800px',
 			width: '800px',
-			data: null
+			data: actividad
 		});
 		
-		this.subscriptions.push(dialogRef.afterClosed().subscribe(result => {
+		this.subscriptions.push(this.dialogRef.afterClosed().subscribe(result => {
 			// if (result && result.result === true) {
 			// 	mov.afipCAE = result.cae;
 			// 	this.notificationService.notification$.next({message: result.msj, action:'Ok'});
 			// }
 		}));
 	}
+	cancelarEdicion() {
+		this.dialogRef.close({ update: false });
+	  }
 }

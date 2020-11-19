@@ -13,7 +13,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { AdminActiviadTipoComponent } from './actividadtipo/admin/admin.actividadtipo.component';
 import { EditActividadTipoComponent } from './actividadtipo/edit/edit.actividadtipo.component';
@@ -25,6 +26,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker'; 
 import {MatNativeDateModule} from '@angular/material/core';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,9 @@ import {MatNativeDateModule} from '@angular/material/core';
     AdminActiviadTipoComponent,
     EditActividadTipoComponent,
     AdminActiviadComponent,
-    EditActividadComponent
+    EditActividadComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   entryComponents: [EditActividadTipoComponent, EditActividadComponent],
   imports: [
@@ -42,6 +49,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     NoopAnimationsModule, 
     MatFormFieldModule,
     MatDialogModule,
@@ -55,12 +63,17 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    
     RouterModule.forRoot([
-      { path: 'tipoActividad', component: AdminActiviadTipoComponent },
-      { path: 'actividad', component: AdminActiviadComponent },
+      { path: 'tipoActividad', component: AdminActiviadTipoComponent, canActivate: [AuthGuardService] },
+      { path: 'actividad', component: AdminActiviadComponent, canActivate: [AuthGuardService] },
+      { path: 'login', component: LoginComponent },
+      { path: 'registrar', component: RegisterComponent },
     ])
   ],
-  providers: [],
+  providers: [AuthService, AuthGuardService, AngularFireAuth, AngularFireDatabase],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
