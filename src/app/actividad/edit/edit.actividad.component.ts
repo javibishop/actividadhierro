@@ -1,14 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import ActividadTipo from 'src/app/models/actividadtipo';
 import { ActividadtipoService } from 'src/app/services/actividadtipo.service';
 import { ActividadService } from 'src/app/services/actividad.service';
-import Actividad from '../../models/actividad'
-import { take } from 'rxjs/operators';
+import Actividad from '../../models/actividad';
 import { FormControl, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
-import { getLocaleDateTimeFormat } from '@angular/common';
-
+import { ConstService } from 'src/app/services/const.service';
+import { GenericList } from 'src/app/models/list-item.model';
 @Component({
   selector: 'app-actividad-edit',
   templateUrl: './edit.actividad.component.html',
@@ -18,9 +15,9 @@ export class EditActividadComponent implements OnInit {
   actividad: Actividad;
   subscriptions = [];
   tipos: any [];
-  participantes: any [];
+  usuariesEnumn : GenericList;
   constructor(public dialogRef: MatDialogRef<EditActividadComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,
-  private actividadTipoService: ActividadtipoService, private actividadService: ActividadService, private userService: UserService) { }
+  private actividadTipoService: ActividadtipoService, private actividadService: ActividadService, private constService: ConstService) { }
   descripcion = new FormControl('', [
     Validators.maxLength(5000)
   ]); 
@@ -28,14 +25,14 @@ export class EditActividadComponent implements OnInit {
   fecha = new Date();
 
   ngOnInit(){
+    this.usuariesEnumn = this.constService.getUsuarias();
+    
     this.subscriptions.push(this.actividadTipoService.getAll().subscribe(data => this.tipos = data));
-    this.subscriptions.push(this.userService.getUsers().subscribe(usuaries => this.participantes = usuaries));
-        
         if(this.data !== null){
           this.actividad = this.data;
           this.fecha = new Date(this.actividad.fecha);
         }else {
-          this.actividad = {key: '', titulo: '', descripcion: '', ubicacion: '', fecha: new Date().getTime(), actividadTipoKey:'', actividadTipo:'', participantesKey:[''], activo: true};
+          this.actividad = {key: '', titulo: '', descripcion: '', ubicacion: '', fecha: new Date().getTime(), actividadTipoKey:'', actividadTipo:'', participantes :'', quienRegistraKey : [], activo: true};
         }
   }
  

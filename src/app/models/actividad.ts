@@ -6,7 +6,8 @@ export default class Actividad {
     descripcion: string;
     ubicacion:string;
     fecha: number;
-    participantesKey: [string];
+    participantes: string;
+    quienRegistraKey: string [];
     activo = false;
   }
   

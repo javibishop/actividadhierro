@@ -1,3 +1,4 @@
+import { getDescriptions } from './pipes/getDescriptions';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -25,11 +26,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker'; 
-import {MatNativeDateModule} from '@angular/material/core';
+import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { AuthGuardService } from './services/auth-guard.service';
     AdminActiviadComponent,
     EditActividadComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    getDescriptions
   ],
   entryComponents: [EditActividadTipoComponent, EditActividadComponent],
   imports: [
@@ -71,7 +74,8 @@ import { AuthGuardService } from './services/auth-guard.service';
       { path: 'registrar', component: RegisterComponent },
     ])
   ],
-  providers: [AuthService, AuthGuardService, AngularFireAuth, AngularFireDatabase],
+  providers: [AuthService, AuthGuardService, AngularFireAuth, AngularFireDatabase,
+    { provide: MAT_DATE_LOCALE, useValue: 'es-AR'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

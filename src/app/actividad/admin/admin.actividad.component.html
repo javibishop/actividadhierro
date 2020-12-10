@@ -12,11 +12,15 @@
 			</ng-container>
 			<ng-container matColumnDef="fecha">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Fecha</b></mat-header-cell>
-				<mat-cell *matCellDef="let element">{{ element.fecha | date }}</mat-cell>
+				<mat-cell *matCellDef="let element">{{ element.fecha | date:'dd/MM/yy':'GMT' }}</mat-cell>
 			</ng-container>
 			<ng-container matColumnDef="tipo">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Tipo</b></mat-header-cell>
 				<mat-cell *matCellDef="let element">{{ element.actividadTipo?.nombre }}</mat-cell>
+			</ng-container>
+			<ng-container matColumnDef="quienregistro">
+				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Quien Registra?</b></mat-header-cell>
+				<mat-cell *matCellDef="let element">{{ element.quienRegistraKey | getDescriptions: 'usuarias' }}</mat-cell>
 			</ng-container>
 			<ng-container matColumnDef="ubicacion">
 				<mat-header-cell *matHeaderCellDef mat-sort-header><b>Ubicacion</b></mat-header-cell>
@@ -39,7 +43,7 @@
 					<mat-menu #menu="matMenu">  
 						<button mat-menu-item (click)="editActividad(element)">Editar</button>
 						<hr>
-						<button mat-menu-item (click)="habilitarIn(element)">{{(element.activo ? 'Inhabilitar' : 'Habilitar')}}</button>
+						<button mat-menu-item (click)="eliminar(element)">Eliminar</button>
 					</mat-menu>
 				</td>
 			</ng-container>

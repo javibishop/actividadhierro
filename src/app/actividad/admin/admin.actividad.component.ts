@@ -14,7 +14,7 @@ import { EditActividadComponent } from '../edit/edit.actividad.component';
   styleUrls: ['./admin.actividad.component.scss']
 })
 export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy {
-	displayedColumns = ["titulo",'fecha', 'tipo', 'ubicacion', 'id'];
+	displayedColumns = ["titulo",'fecha', 'tipo', 'quienregistro', 'ubicacion', 'id'];
 	dataSource = new MatTableDataSource<any>();
 	actividades:  Actividad[];
 	subscriptions = [];
@@ -45,12 +45,10 @@ export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy 
 		this.dataSource.filter = filterValue;
 	}
 
-	habilitarIn(element) {
-		if (!element.available) {
-			element.available = false;
+	eliminar(element) {
+		if (window.confirm("Desea eliminar la actividad?")) { 
+			this.actividadService.delete(element.key);
 		}
-		element.available = !element.available;
-		//this.impuestoService.update(element.key, element); 
 	}
 	ngOnDestroy() {
 		this.subscriptions.forEach(s => s.unsubscribe());

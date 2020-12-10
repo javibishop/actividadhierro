@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { map } from 'rxjs/operators';
 import Actividad from '../models/actividad';
-import ActividadTipo from '../models/actividadtipo';
 
 
 @Injectable({
@@ -52,7 +51,7 @@ export class ActividadService {
     return this.actividadRef.remove(key);
   }
 
-  deleteAll(): Promise<void> {
-    return this.actividadRef.remove();
-  }
+  // deleteAll(): Promise<void> {
+  //   return this.actividadRef.remove();
+  // }
 }
