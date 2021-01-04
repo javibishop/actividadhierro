@@ -18,7 +18,23 @@ export class ActividadService {
   }
 
   getAll() {
-    return this.actividadRef.snapshotChanges()
+    return this.db.list(this.dbPath, ref => ref.orderByChild("fecha"))
+      .snapshotChanges()
+			.pipe(
+				map(action => {
+					return action.map((item: any) => {
+						const key = item.payload.key;
+            const data = { key, ...item.payload.val() as Actividad };
+            data.key = key;
+						return data;
+					});
+				})
+      )
+  }
+
+  getPorTipo(tipoKey) {
+    return this.db.list(this.dbPath, ref => ref.orderByChild("fecha"))
+      .snapshotChanges()
 			.pipe(
 				map(action => {
 					return action.map((item: any) => {

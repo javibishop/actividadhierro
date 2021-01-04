@@ -2,14 +2,19 @@
 	transform: scale(.5);
   }
   mat-header-cell, mat-cell, mat-checkbox{
-    justify-content: center;
-    flex: 0 0 200px;
+    justify-content: flex-start;
+    flex: 0 0 230px;
     border-bottom-width: 0px;
     border-bottom-style: solid;
     border-bottom-color: lightgrey;
     align-items: center;
+    //text-align: left !important;
   }
-  
+
+  td.mat-cell{
+    border-bottom-width: 0px !important;
+    border-bottom-style: none !important;
+  }
   mat-cell > a{
     color: #007bff !important;
   }
@@ -31,3 +36,24 @@
   a:hover {
     cursor:pointer;
    }
+
+.w-100{
+    width: 100px !important;
+}
+.w-150{
+  width: 150px !important;
+}
+
+.th-center{
+  text-align: center;
+}
+.th-left{
+  text-align: left !important;
+}
+.th-right{
+  text-align: right;
+}
+
+mat-form-field{
+  width: 100%;
+}

@@ -18,7 +18,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class AdminActiviadTipoComponent implements OnInit, AfterViewInit, OnDestroy {
 	Impuesto: ActividadTipo;
 	subscriptions = [];
-	displayedColumns = ["nombre", "descripcion","activo", "id"];
+	displayedColumns = ["nombre", "descripcion", "id"];
 	dataSource = new MatTableDataSource<any>();
 	actividadesTipo:  ActividadTipo[];
 	@ViewChild(MatPaginator) paginator: MatPaginator;

@@ -31,7 +31,15 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { CalendarioComponent } from './calendario/calendario.component';
 
+import { FullCalendarModule } from '@fullcalendar/angular/lib/fullcalendar.module';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+// FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+//   dayGridPlugin,
+//   interactionPlugin
+// ]);
 
 @NgModule({
   declarations: [
@@ -42,7 +50,8 @@ import { AuthGuardService } from './services/auth-guard.service';
     EditActividadComponent,
     LoginComponent,
     RegisterComponent,
-    getDescriptions
+    getDescriptions,
+    CalendarioComponent
   ],
   entryComponents: [EditActividadTipoComponent, EditActividadComponent],
   imports: [
@@ -66,12 +75,14 @@ import { AuthGuardService } from './services/auth-guard.service';
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    
+    //FullCalendarModule,
     RouterModule.forRoot([
       { path: 'tipoActividad', component: AdminActiviadTipoComponent, canActivate: [AuthGuardService] },
       { path: 'actividad', component: AdminActiviadComponent, canActivate: [AuthGuardService] },
       { path: 'login', component: LoginComponent },
       { path: 'registrar', component: RegisterComponent },
+      { path: 'calendario', component: CalendarioComponent },
+      
     ])
   ],
   providers: [AuthService, AuthGuardService, AngularFireAuth, AngularFireDatabase,

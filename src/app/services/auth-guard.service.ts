@@ -7,7 +7,8 @@ export class AuthGuardService implements CanActivate {
 	constructor(private auth: UserNotificationService, private router: Router) {}
 
 	canActivate(route, state: RouterStateSnapshot) {
-		if(this.auth.usuarieLoged$.value !== null){
+		let user = JSON.parse(localStorage.getItem('user'));
+		if(this.auth.usuarieLoged$.value !== null || user !== null){
 			return true;
 		}else{
 			this.router.navigate(["/login"], {

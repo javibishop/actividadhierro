@@ -6,6 +6,7 @@ import Actividad from '../../models/actividad';
 import { FormControl, Validators } from '@angular/forms';
 import { ConstService } from 'src/app/services/const.service';
 import { GenericList } from 'src/app/models/list-item.model';
+
 @Component({
   selector: 'app-actividad-edit',
   templateUrl: './edit.actividad.component.html',
@@ -37,7 +38,7 @@ export class EditActividadComponent implements OnInit {
   }
  
 
-  guardar(f) {
+  guardar() {
     this.actividad.fecha = this.fecha.getTime();
     if (this.actividad.key !== '') {
       this.actividadService.update(this.actividad.key, this.actividad);

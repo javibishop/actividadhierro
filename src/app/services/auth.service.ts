@@ -61,6 +61,8 @@ export class AuthService {
 		this.userService.getByEmail(user.email).subscribe(r => {
 			if(r && r.length === 1){
 				this.userNotificationService.usuarieLoged$.next(r[0]);
+				//let data = {user: r[0], vencimiento: new Date().ad}
+				localStorage.setItem('user', JSON.stringify(r[0]));
 				this.route.navigate(["/actividad"]);
 			}else{
 				const userData = {
