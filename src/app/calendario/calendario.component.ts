@@ -1,27 +1,28 @@
-import { Component, OnInit, ViewChild, forwardRef } from '@angular/core';
-import { CalendarOptions, Calendar } from '@fullcalendar/core';
+import { Component, OnInit, ViewChild, forwardRef, OnDestroy } from '@angular/core';
+import { CalendarOptions, Calendar, EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { ActividadService } from '../services/actividad.service';
-import esLocale from '@fullcalendar/core/locales/es';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { EditActividadComponent } from '../actividad/edit/edit.actividad.component';
 
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.scss']
 })
-export class CalendarioComponent implements OnInit {
+export class CalendarioComponent implements OnInit, OnDestroy {
 
   calendarOptions: CalendarOptions;
   eventsModel: any;
   @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
+  dialogRef:  MatDialogRef<EditActividadComponent>;
+  subscriptions = [];
+  actividades = [];
+  calendarEvents = [];
 
-  calendarEvents = [
-    //{ title: 'event 1', date: '2021-01-01' }
-  ];
-
-  constructor(private actividadService: ActividadService){
+  constructor(private actividadService: ActividadService, private dialog: MatDialog){
     
   }
   getFecha(fecha: number): string{
@@ -32,9 +33,9 @@ export class CalendarioComponent implements OnInit {
   ngOnInit() {
     forwardRef(() => Calendar);
     this.actividadService.getAll().subscribe(data => {
-			let actividades = data.sort((a, b) => b.fecha - a.fecha);
-			actividades.forEach(a => {
-				this.calendarEvents.push({title: a.actividadTipo?.nombre, date: this.getFecha(a.fecha)})
+			this.actividades = data.sort((a, b) => b.fecha - a.fecha);
+			this.actividades.forEach(a => {
+				this.calendarEvents.push({title: `${a.actividadTipo?.nombre} \n ${a.ubicacion} - ${a.participantes}`, date: this.getFecha(a.fecha), id: a.key})
       });
       this.setCalendarConfig();
     });
@@ -65,6 +66,7 @@ export class CalendarioComponent implements OnInit {
         center: 'title',
         right: 'dayGridMonth'
       },
+      //select: this.handleDateSelect.bind(this),
       dateClick: this.handleDateClick.bind(this),
       eventClick: this.handleEventClick.bind(this),
       eventDragStop: this.handleEventDragStop.bind(this)
@@ -75,7 +77,7 @@ export class CalendarioComponent implements OnInit {
   }
 
   handleEventClick(arg) {
-    console.log(arg);
+    this.showModal(arg);
   }
 
   handleEventDragStop(arg) {
@@ -100,5 +102,32 @@ export class CalendarioComponent implements OnInit {
       end: yearMonth + '-10'
     }];
   }
+	ngOnDestroy() {
+		this.subscriptions.forEach(s => s.unsubscribe());
+  }
+  
+  showModal(clickInfo: EventClickArg) {
+    const index = this.actividades.findIndex(a => a.key === clickInfo.event.id);
+    if(index > -1){
+      let actividad = this.actividades[index];
+      this.dialogRef = this.dialog.open(EditActividadComponent, {
+        height: '90%',
+        width: '80%',
+        data: actividad,
+        disableClose: true
+      });
+  
+      this.subscriptions.push(this.dialogRef.afterClosed().subscribe(result => {
+        // if (result && result.result === true) {
+        // 	mov.afipCAE = result.cae;
+        // 	this.notificationService.notification$.next({message: result.msj, action:'Ok'});
+        // }
+      }));
+    }
+    
+	}
+	cancelarEdicion() {
+		this.dialogRef.close({ update: false });
+	}
 
 }

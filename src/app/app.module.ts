@@ -1,3 +1,4 @@
+import { ListItem } from './models/list-item.model';
 import { getDescriptions } from './pipes/getDescriptions';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -13,6 +14,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabase, AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
@@ -67,6 +72,9 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     MatCheckboxModule,
     MatMenuModule,
     MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule,
     MatDatepickerModule,
     MatNativeDateModule,
     FullCalendarModule,
