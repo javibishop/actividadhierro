@@ -33,13 +33,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { CalendarioComponent } from './calendario/calendario.component';
 
-import { FullCalendarModule } from '@fullcalendar/angular/lib/fullcalendar.module';
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import interactionPlugin from '@fullcalendar/interaction'; // a plugin
-// FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-//   dayGridPlugin,
-//   interactionPlugin
-// ]);
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -75,13 +69,13 @@ import interactionPlugin from '@fullcalendar/interaction'; // a plugin
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    //FullCalendarModule,
+    FullCalendarModule,
     RouterModule.forRoot([
       { path: 'tipoActividad', component: AdminActiviadTipoComponent, canActivate: [AuthGuardService] },
       { path: 'actividad', component: AdminActiviadComponent, canActivate: [AuthGuardService] },
       { path: 'login', component: LoginComponent },
       { path: 'registrar', component: RegisterComponent },
-      { path: 'calendario', component: CalendarioComponent },
+      { path: 'calendario', component: CalendarioComponent, canActivate: [AuthGuardService] },
       
     ])
   ],

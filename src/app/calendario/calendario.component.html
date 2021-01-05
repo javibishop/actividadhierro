@@ -1,1 +1,8 @@
-<!-- <full-calendar [options]="calendarOptions"></full-calendar> -->
+<full-calendar
+  *ngIf="calendarOptions"
+  defaultView="dayGridMonth"
+  #fullcalendar
+  [options]="calendarOptions"
+  [weekends]="false"
+  
+></full-calendar>

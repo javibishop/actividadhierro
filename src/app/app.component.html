@@ -20,14 +20,15 @@
         <mat-icon>calendar_today</mat-icon>
         <span>Actividades</span>
       </button>
+      <button mat-menu-item [routerLink]="['/calendario']">
+        <mat-icon>calendar_today</mat-icon>
+        <span>Calendario</span>
+      </button>
       <button mat-menu-item [routerLink]="['/tipoActividad']">
         <mat-icon>outlined_flag</mat-icon>
         <span>Tipo de Actividades</span>
       </button>
     </mat-menu>
-    
-    
-
   </span>
     <div class="spacer"></div>
     <ng-template #anonymousUser>
