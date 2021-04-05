@@ -17,10 +17,11 @@ export class EditActividadComponent implements OnInit {
   subscriptions = [];
   tipos: any [];
   usuariesEnumn : GenericList;
+  descripcionControl : FormControl;
   constructor(public dialogRef: MatDialogRef<EditActividadComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,
   private actividadTipoService: ActividadtipoService, private actividadService: ActividadService, private constService: ConstService) { }
   descripcion = new FormControl('', [
-    Validators.maxLength(5000)
+    Validators.maxLength(5000)  
   ]); 
 
   fecha = new Date();
@@ -32,14 +33,17 @@ export class EditActividadComponent implements OnInit {
         if(this.data !== null){
           this.actividad = this.data;
           this.fecha = new Date(this.actividad.fecha);
+          this.descripcionControl = new FormControl(this.actividad.descripcion);      
         }else {
           this.actividad = {key: '', titulo: '', descripcion: '', ubicacion: '', fecha: new Date().getTime(), actividadTipoKey:'', actividadTipo:'', participantes :'', quienRegistraKey : [], activo: true};
+          this.descripcionControl = new FormControl();      
         }
   }
  
 
   guardar() {
     this.actividad.fecha = this.fecha.getTime();
+    this.actividad.descripcion = this.descripcionControl.value;
     if (this.actividad.key !== '') {
       this.actividadService.update(this.actividad.key, this.actividad);
       this.dialogRef.close({ action: 'create', status:true });
@@ -52,7 +56,7 @@ export class EditActividadComponent implements OnInit {
   }
 
   tipoChange(tipo){
-    let index = this.tipos.findIndex(t => t.key === tipo.target.value);
+    let index = this.tipos.findIndex(t => t.key === tipo.value);
     if(index > -1){
       this.actividad.actividadTipo = this.tipos[index];
     }

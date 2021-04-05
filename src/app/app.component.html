@@ -3,9 +3,10 @@
   </svg> -->
 
 <mat-toolbar color="primary" class="example-toolbar">
-  <button mat-icon-button (click)="isExpanded = !isExpanded">
+  <!-- <button mat-icon-button (click)="isExpanded = !isExpanded">
     <mat-icon>menu</mat-icon>
-  </button>
+  </button> -->
+  <h3 class="text-center font-weight-light my-4">Actividades Puente de Fierro</h3>
 </mat-toolbar>
 <mat-sidenav-container class="example-container" autosize>
   <mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()"
@@ -32,9 +33,14 @@
           </a>
         </li>
       </ng-template>
+      <div class="sb-sidenav-footer">
+        <div class="small">Usuarie actual:</div>
+        <span *ngIf="appUser; else anonymousUser">{{ appUser.displayName || "Usuarie" }}</span>
+    </div>
+<!-- 
       <i aria-hidden="true" *ngIf="appUser; else anonymousUser">
         <span class="username">Usuarie: {{ appUser.displayName || "Usuarie" }} </span>
-      </i>
+      </i> -->
     </mat-nav-list>
   </mat-sidenav>
 
