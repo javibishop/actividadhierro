@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ActividadtipoService } from 'src/app/services/actividadtipo.service';
 import { ActividadService } from 'src/app/services/actividad.service';
@@ -12,7 +12,7 @@ import { GenericList } from 'src/app/models/list-item.model';
   templateUrl: './edit.actividad.component.html',
   styleUrls: ['./edit.actividad.component.scss']
 })
-export class EditActividadComponent implements OnInit {
+export class EditActividadComponent implements OnInit, OnDestroy {
   actividad: Actividad;
   subscriptions = [];
   tipos: any [];
@@ -20,8 +20,11 @@ export class EditActividadComponent implements OnInit {
   descripcionControl : FormControl;
   constructor(public dialogRef: MatDialogRef<EditActividadComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,
   private actividadTipoService: ActividadtipoService, private actividadService: ActividadService, private constService: ConstService) { }
+  
+  
   descripcion = new FormControl('', [
-    Validators.maxLength(5000)  
+    Validators.maxLength(5000),
+    Validators.required  
   ]); 
 
   fecha = new Date();
@@ -40,19 +43,27 @@ export class EditActividadComponent implements OnInit {
         }
   }
  
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe())
+  }
+  
 
   guardar() {
     this.actividad.fecha = this.fecha.getTime();
     this.actividad.descripcion = this.descripcionControl.value;
-    if (this.actividad.key !== '') {
-      this.actividadService.update(this.actividad.key, this.actividad);
-      this.dialogRef.close({ action: 'create', status:true });
-		} else {
-			this.actividad.activo = true;
-      this.actividadService.create(this.actividad);
-      
-      this.dialogRef.close({ action: 'update', status:true });
-		}
+    if(!!this.actividad.descripcion){
+      if (this.actividad.key !== '') {
+        this.actividadService.update(this.actividad.key, this.actividad);
+        this.dialogRef.close({ action: 'create', status:true });
+      } else {
+        this.actividad.activo = true;
+        this.actividadService.create(this.actividad);
+        
+        this.dialogRef.close({ action: 'update', status:true });
+      }
+    }else{
+      alert("La descripcion es obligatoria.")
+    }
   }
 
   tipoChange(tipo){
