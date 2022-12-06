@@ -9,6 +9,7 @@ export class ConstService {
 	public usuariesStatus: GenericList = new GenericList();
 	constructor() {
 		this.usuariesStatus.list.push(
+			{ id: UsuariasEnum.Gabriela, descripcion: 'Aldana' },
 			{ id: UsuariasEnum.Analia, descripcion: 'Analia' },
 			{ id: UsuariasEnum.Gabriela, descripcion: 'Gabriela' },
 			{ id: UsuariasEnum.Geraldine, descripcion: 'Geraldine' },

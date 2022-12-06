@@ -38,11 +38,8 @@
 				</mat-checkbox>
 			</div>
 			<div class="action-buttons pull-right  mt-2 mb-2">
-				<button type="submit" class="btn btn-primary mr-2">Guardar</button>
-				<!-- <button type="button" class="btn btn-danger  mr-2" (click)="delete()">
-					Eliminar
-				</button> -->
-				<button type="button" class="btn btn-warning mr-2" (click)="cerrarDialog()">
+				<button type="button" (click)="guardar()" mat-raised-button color="primary" class="mr-2">Guardar</button>
+				<button type="button" mat-raised-button color="warn" class="mr-2" (click)="cerrarDialog()">
 					Cancelar
 				</button>
 			</div>

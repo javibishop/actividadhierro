@@ -8,6 +8,7 @@ import Actividad from 'src/app/models/actividad';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EditActividadComponent } from '../edit/edit.actividad.component';
 import { ActividadtipoService } from "src/app/services/actividadtipo.service";
+import { LoaderService } from "src/app/services/common/loader.service";
 
 @Component({
 	selector: 'app-admin-actividad',
@@ -24,16 +25,19 @@ export class AdminActiviadComponent implements OnInit, AfterViewInit, OnDestroy 
 	dialogRef: MatDialogRef<EditActividadComponent>;
 	tipos: any[];
 	actividadTipoKey: string;
-	constructor(private actividadService: ActividadService, private dialog: MatDialog, private actividadTipoService: ActividadtipoService) { }
+	constructor(private actividadService: ActividadService, private dialog: MatDialog, private actividadTipoService: ActividadtipoService,
+		private spinnerService: LoaderService) { }
 
 	ngOnInit() {
-		this.actividadTipoService.getAll().subscribe(data => this.tipos = data)
+		this.spinnerService.show();
+		this.actividadTipoService.getAll().subscribe(data => this.tipos = data);
 		this.subscriptions.push(this.actividadService.getAll().subscribe(data => {
 			this.actividades = data.sort((a, b) => b.fecha - a.fecha);
 			this.actividades.forEach(element => {
 				element.tipoNombre = element.actividadTipo?.nombre;
 			});
 			this.dataSource.data = this.actividades;
+			this.spinnerService.hide();
 		}));
 	}
 

@@ -39,7 +39,11 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { CalendarioComponent } from './calendario/calendario.component';
 import {QuillModule} from 'ngx-quill';
 import { FullCalendarModule } from '@fullcalendar/angular';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderInterceptor } from './interceptors/loaderInterceptor';
+import { LoaderService } from './services/common/loader.service';
+import { LoaderComponent } from './loader/loader.component';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +54,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     LoginComponent,
     RegisterComponent,
     getDescriptions,
-    CalendarioComponent
+    CalendarioComponent,
+    LoaderComponent
   ],
   entryComponents: [EditActividadTipoComponent, EditActividadComponent],
   imports: [
@@ -77,6 +82,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     MatToolbarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonModule,
     FullCalendarModule,
     RouterModule.forRoot([
       { path: 'tipoActividad', component: AdminActiviadTipoComponent, canActivate: [AuthGuardService] },
@@ -111,8 +117,9 @@ import { FullCalendarModule } from '@fullcalendar/angular';
       }
     })
   ],
-  providers: [AuthService, AuthGuardService, AngularFireAuth, AngularFireDatabase,
-    { provide: MAT_DATE_LOCALE, useValue: 'es-AR'}],
+  providers: [AuthService, AuthGuardService, AngularFireAuth, AngularFireDatabase,LoaderService,
+    { provide: MAT_DATE_LOCALE, useValue: 'es-AR'},
+    { provide: HTTP_INTERCEPTORS,useClass: LoaderInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

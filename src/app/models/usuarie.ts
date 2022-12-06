@@ -8,5 +8,6 @@ export enum UsuariasEnum{
     Micaela = 1,
     Analia = 2, 
     Gabriela = 3,
-    Geraldine = 4
+    Geraldine = 4,
+    Aldana = 5
 }

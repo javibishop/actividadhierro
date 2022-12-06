@@ -24,7 +24,7 @@
         <a mat-list-item [routerLink]="['/tipoActividad']"> <mat-icon>outlined_flag</mat-icon>Tipo de Actividades</a>
       </div>
     </mat-nav-list>
-    <mat-nav-list>
+    <mat-nav-list  style="padding-bottom: 100%;">
       <ng-template #anonymousUser>
         <li class="nav-item">
           <a class="nav-link" routerLink="/login">
@@ -33,9 +33,14 @@
           </a>
         </li>
       </ng-template>
-      <div class="sb-sidenav-footer">
+      <div class="sb-sidenav-footer;padding-bottom: 100%;">
         <div class="small">Usuarie actual:</div>
-        <span *ngIf="appUser; else anonymousUser">{{ appUser.displayName || "Usuarie" }}</span>
+        <!-- <div class="photo">
+          <img alt="Profile Photo" src="../assets/register-user-48.png" />
+        </div> -->
+        <p *ngIf="appUser; else anonymousUser">
+          <!-- <span class="material-icons md-dark; padding-top: 30px;" >face</span> -->
+          <b> {{ appUser.displayName || "Usuarie" }} </b></p>
     </div>
 <!-- 
       <i aria-hidden="true" *ngIf="appUser; else anonymousUser">
@@ -50,6 +55,7 @@
     </crm-navigation-bar>
     -->
     <router-outlet></router-outlet>
+    <app-loader></app-loader>
   </mat-sidenav-content>
 
 </mat-sidenav-container>
